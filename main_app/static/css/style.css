@@ -3,11 +3,23 @@ body {
     min-height: 100vh;
     flex-direction: column;
     font-family: 'Source Sans Pro', sans-serif;
+    
 }
 
 main.container {
-    margin: 20px auto;
+    margin: 0 auto;
+    margin-top: 20px;
     flex: 1 0 auto;
+    text-transform: uppercase;
+}
+
+.profile {
+    display: inline-block;
+    height: 100vh;
+}
+
+.profile-pic {
+    margin-top: 10px;
 }
 
 footer {
@@ -19,13 +31,33 @@ span {
     font-weight: 600;
 }
 
+.upload-photo {
+    margin: 1vh;
+    text-align: center;
+}
+
 .btn {
     border: 1px solid black;
     background-color: transparent;
     color: black;
     margin: 2vh;
-    width: 25vw;
-    border-radius: 5px;
+    width: 15vw;
     font-weight: 600;
     font-size: 3vmin;
+}
+
+p {
+    font-size: calc(13px + 0.5vw);
+}
+
+.btn-flat {
+    margin: 1vh;
+}
+
+#icon {
+    width: 10vw;
+}
+
+#note-date {
+    width: 20vw;
 }

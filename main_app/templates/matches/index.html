@@ -1,14 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>My Matches</h1>
+
 <div class="row">
+    {% if matches %}
     {% for match in matches %}
     <div class="col s6 m4 l3">
-        <div class="card">
-            <div class="card-image center-align">
-                <i class="material-icons" style="font-size: 12rem" >account_circle</i>
-            </div>
+        <div class="card center-align">
+            {% for photo in match.match_photo_set.all %}
+                    {% if forloop.counter == 1 %}
+                        <img class="responsive-img"  src="{{photo.url}}">
+                    {% endif %}
+                {% empty %}
+                    <i class="material-icons" style="font-size: 25vh" >account_circle</i>
+            {% endfor %}
             <div class="card-content center-align">
                 <a class="btn-floating halfway-fab waves-effect waves-light red" href="{% url 'match_detail' match.id %}"><i class="material-icons">more_horiz</i></a>
                 <span class="card-title">{{ match.name }}</span>
@@ -16,7 +21,15 @@
         </div>
     </div>
     {% endfor %}
+    {% else %}
 </div>
+
+<div class="center-align">
+    <h4 class="red-text darken-4 center-align">no matches </h4>
+    <a class="waves-effect btn-flat red 
+    white-text" href="{% url 'matches_create' %}">Add a Match</a></li>
+</div>
+{% endif %}
 
 
 {% endblock %}

@@ -4,9 +4,9 @@
 
 
 {% if object %}
-<h1>Edit <span class="teal-text">{{object.name}}</span></h1>
+<h4 class="center-align red-text darken-4">Edit Rendez-vous</h4>
 {% else %}
-<h1>Add a Rendez-vous</h1>
+<h4 class="center-align red-text darken-4">Add a Rendez-vous</h4>
 {% endif %}
 
 <form action="" method="post">
@@ -14,7 +14,11 @@
     <table>
         {{ form.as_table }}
     </table>
-    <input type="submit" value="Submit" class="btn">
+    {% if object %}
+      <input type="submit" value="Edit Rendez-vous" class="btn-flat red white-text">
+    {% else %}
+      <input type="submit" value="Add Rendez-vous" class="btn-flat red white-text">
+    {% endif %}
 </form>
 
 <script>
@@ -23,12 +27,25 @@ var dateEl = document.getElementById('id_date');
   M.Datepicker.init(dateEl, {
     format: 'yyyy-mm-dd',
     defaultDate: new Date(),
-    setDefaultDate: true,
+    setDefaultDate: false,
     autoClose: true
   });
 
-    var selectEl = document.getElementById('id_match');
-    M.FormSelect.init(selectEl);
+var timeEl = document.getElementById('id_rdv_time');
+  M.Timepicker.init(timeEl, {
+    twelveHour: true,
+    
+  });
+
+  timeEl.onchange = function() {
+    console.log(this);
+  }
+
+var selectEl = document.getElementById('id_match');
+M.FormSelect.init(selectEl);
+
+var rateEl = document.getElementById('id_rating');
+M.FormSelect.init(rateEl)
 </script>
 
 {% endblock %}

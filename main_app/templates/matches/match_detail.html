@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row">
+    <div class="col s6 offset-s3 m6 l4">
+        <div class="card">
+            <div class="card-image center-align">
+            {% if not match.ghost %}
+                {% for photo in match.match_photo_set.all %}
+                    {% if forloop.counter == 1 %}
+                        <img class="responsive-img" src="{{photo.url}}">
+                    {% endif %}
+                {% empty %}
+                    <i class="material-icons" style="font-size: 25vh">account_circle</i>
+                {% endfor %}
+            {% else %}
+                <img src="https://i.imgur.com/ZbOJKby.png">
+            {% endif %}
+            </div>
+        </div>
+        {% if not match.ghost %}
+        <form action="{% url 'add_match_photo' match.id %}" enctype="multipart/form-data" method="POST"
+            class="center-align">
+            {% csrf_token %}
+            <input type="file" name="photo-file" class="center-align">
+            <br><br>
+            <input type="submit" class="btn-flat red white-text" value="Upload Photo">
+        </form>
+        {% endif %}
+    </div>
+    <div class="col col s8 offset-s2 m6 l8">
+        <div class="card-content center-align">
+            <h2 class="red-text">{{ match.name }}</h2>
+            <h4>{{ match.phone }}</h4>
+            <h5>where we met: {{ match.meet }}</h5>
+        </div><br>
+        <div class="card-action center-align">
+            <a class="waves-effect btn-flat red white-text" href="{% url 'match_update' match.id %}" padding="2px">Edit Match
+                Details</a>
+            <a class="waves-effect btn-flat red white-text" href="{% url 'match_delete' match.id %}">Delete Match</a>
+                {% if not match.ghost %}
+                <a class="waves-effect btn-flat red white-text" href="{% url 'match_ghost' match.id %}">Ghosted</a>
+                {% else %}
+                <a class="waves-effect btn-flat red white-text" href="{% url 'match_ghost' match.id %}">Unghost</a>
+                {% endif %}
+        </div>
+    </div>
+</div>
+
+</div>
+<div class="col col s8 offset-s2 m12 l6">
+    <div class="card">
+        <div class="card-content center-align">
+            <span class="card-title red-text text-darken 4">UPCOMING RENDEZ-VOUS</span>
+            <table class="striped">
+                <tbody>
+                    {% for rdv in match.rdv_set.all  %}
+                    {% if not rdv.past_date %}
+                    {% if request.user.id == rdv.match.user.id %}
+                    <tr>
+                        <td>{{rdv.date}}</td>
+                        <td>{{rdv.rdv_time}}</td>
+                        <td id="icon"><a class="btn-floating btn-small waves-effect waves-light red"
+                                href="{% url 'rdv_detail' rdv.id %}"> <i class="material-icons">more_horiz</i></a></td>
+                    </tr>
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a class="waves-effect btn-flat red white-text" href="{% url 'rdvs_create' %}"> Add a new Rendez-Vous</a>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-content center-align">
+            <table class="striped">
+                <tbody>
+                    <tr>
+                        <th>Age</th>
+                        <td>{{ match.age }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>{{ match.email }}</td>
+                    </tr>
+                    <tr>
+                        <th>Match's Location</th>
+                        <td>{{ match.location }}</td>
+                    </tr>
+                    <tr>
+                        <th>Interests</th>
+                        <td>{{ match.interests }}</td>
+                    </tr>
+                    <tr>
+                        <th>Zodiac</th>
+                        <td>{{ match.zodiac }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="col col s8 offset-s2 m12 l6">
+    <div class="card">
+        <div class="card-content center-align">
+            <span class="card-title red-text text-darken 4">PAST RENDEZ-VOUS</span>
+            <br>
+            <table class="striped">
+                <tbody>
+                    <thead>
+                        <tr>
+                            <th>Rendez-Vous Date</th>
+                            <th>Rating</th>
+                        </tr>
+                    </thead>
+                        {% for rdv in match.rdv_set.all  %}
+                        {% if rdv.past_date %}
+                        {% if request.user.id == rdv.match.user.id %}
+                    <tr>
+                        <td>{{rdv.date}}</td>
+                        <td>{{rdv.rating}}</td>
+                        <td id="icon"><a class="btn-floating btn-small waves-effect waves-light red"
+                                href="{% url 'rdv_detail' rdv.id %}"> <i class="material-icons">more_horiz</i></a></td>
+                    </tr>
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-content center-align">
+            <h4>Notes</h4>
+            <table class="striped">
+                <tbody>
+                    {% for note in match.match_notes_set.all %}
+                    <tr>
+                        <td id="note-date">{{note.created}}</td>
+                        <td>{{note.notes}}</td>
+                        <td id="icon">
+                            <form action="{% url 'delete_note' pk note.id %}" method="POST">
+                                {% csrf_token %}
+                                <input class="btn-flat red 
+                                white-text" type="submit" value="Delete Note">
+                                <!-- <i class="material-icons">delete</i> -->
+                            </form>  
+                        </td>
+                    </tr>
+                    {% empty %}
+                        <h5>No Notes Yet</h5>
+                    {% endfor %}
+                    <tr>
+                        <form action="{% url 'add_note' pk %}" method="POST">
+                            {% csrf_token %}
+                            {{ notes_form.as_p }}
+                            <input type="submit" class="btn-flat red white-text" value="Add Note"> 
+                        </form>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+
+{% endblock %}

@@ -1,26 +1,31 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<img height="100vw" src="../static/images/Datebase Logo.png" alt="datebase logo">
-<p>helping singles tackle the messy world of dating</p>
+<div class="center-align">
+<img height="75vw" src="../static/images/Datebase Logo.png" alt="datebase logo">
+<h5>helping singles tackle the messy world of dating</h5>
 <br>
 
-<p>
-The dat&#477;base is a web platform where users can store their dating contacts and 
-track their dating activity in one convenient place. 
+
+<p id="about">
+the dat&#477;base is a new web platform designed to help singles tackle the messy world of dating. Users can now store their dating contacts and 
+track their dating activity all in one convenient place.<br>
 </p>
 
-<p>Brought to you by:</p>
+<h5>Brought to you by:</h5>
 
 <div class="row">
     <div class="col s6 m6 l3">
-            <div class="profile-pic center-align">
-                <img src="../static/images/Calvin.jpg" alt="Calvin" class="circle" width="100vw">
+        <div class="profile-pic center-align">
+            <img src="../static/images/Calvin.jpg" alt="Calvin" class="circle" width="100vw">
+        </div>
+        <div class="card-content center-align">
+            <span class="card-title">Calvin</span>
+            <div class="card-action">
+                    <a href="https://www.linkedin.com/in/calvin-feau/" target="_blank"><img src="../static/images/icons8-color-50.png" alt="LinkedIn" class="circle" width="30vw"></a>
+                    <a href="https://github.com/calvinfeau" target="_blank"><img src="../static/images/icons8-github-50.png" alt="GitHub" class="circle" width="30vw"></a>
             </div>
-            <div class="card-content center-align">
-                <span class="card-title">Calvin</span>
-                <a class="btn-floating waves-effect waves-light red" href=""><i class="material-icons">more_horiz</i></a>
-            </div>
+        </div>
     </div>
     <div class="col s6 m6 l3">
             <div class="profile-pic center-align">
@@ -28,7 +33,10 @@ track their dating activity in one convenient place.
             </div>
             <div class="card-content center-align">
                 <span class="card-title">Dom</span>
-                <a class="btn-floating waves-effect waves-light red" href=""><i class="material-icons">more_horiz</i></a>
+                <div class="card-action">
+                        <a href="https://www.linkedin.com/in/dominic-parducci/" target="_blank"><img src="../static/images/icons8-color-50.png" alt="LinkedIn" class="circle" width="30vw"></a>
+                        <a href="https://github.com/daparducci" target="_blank"><img src="../static/images/icons8-github-50.png" alt="GitHub" class="circle" width="30vw"></a>
+                </div>
             </div>
     </div>
     <div class="col s6 m6 l3">
@@ -37,7 +45,10 @@ track their dating activity in one convenient place.
             </div>
             <div class="card-content center-align">
                 <span class="card-title">Jess</span>
-                <a class="btn-floating waves-effect waves-light red" href=""><i class="material-icons">more_horiz</i></a>
+                <div class="card-action">
+                        <a href="https://www.linkedin.com/in/jessica-choiyvr/" target="_blank"><img src="../static/images/icons8-color-50.png" alt="LinkedIn" class="circle" width="30vw"></a>
+                        <a href="https://github.com/jbokchoi" target="_blank"><img src="../static/images/icons8-github-50.png" alt="GitHub" class="circle" width="30vw"></a>
+                </div>
             </div>
     </div>
     <div class="col s6 m6 l3">
@@ -46,10 +57,13 @@ track their dating activity in one convenient place.
             </div>
             <div class="card-content center-align">
                 <span class="card-title">Joe</span>
-                <a class="btn-floating waves-effect waves-light red" href=""><i class="material-icons">more_horiz</i></a>
+                <div class="card-action">
+                        <a href="https://www.linkedin.com/in/joseph-coburn/" target="_blank"><img src="../static/images/icons8-color-50.png" alt="LinkedIn" class="circle" width="30vw"></a>
+                        <a href="https://github.com/JosephCoburn" target="_blank"><img src="../static/images/icons8-github-50.png" alt="GitHub" class="circle" width="30vw"></a>
+                </div>
             </div>
     </div>
 </div>
-
+</div>
 
 {% endblock %}

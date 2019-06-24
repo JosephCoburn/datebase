@@ -7,15 +7,21 @@ body {
 
 main {
     display: flex;
-    min-height: 100vh;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    flex: 1 0 auto;
 }
 
 img {
     height: 12vmin;
     margin: 1vh;
+}
+
+
+footer {
+    padding-top: 0;
+    text-align: right;
 }
 
 p {

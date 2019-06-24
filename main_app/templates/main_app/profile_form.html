@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if object %}
+    <h4 class="center-align red-text darken-4">Edit your Profile </h4>
+{% else %}
+    <h4 class="center-align red-text darken-4">create your profile</h4>
+{% endif %}
+
+    <form action="" method="post">
+        {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+        </table>
+        <input type="submit" value="Submit" class="btn-flat red white-text">
+    </form>
+
+<script>
+    var selectGender = document.getElementById('id_gender');
+    var selectZodiac = document.getElementById('id_zodiac');
+    var selectGoal = document.getElementById('id_apps_used');
+    var selectApps = document.getElementById('id_relationship_goal');
+    M.FormSelect.init(selectGender);
+    M.FormSelect.init(selectZodiac);
+    M.FormSelect.init(selectGoal);
+    M.FormSelect.init(selectApps);
+</script>
+
+{% endblock %}

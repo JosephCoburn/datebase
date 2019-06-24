@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<br><br><br>
 
+<div class="center-align">
+    <a class="waves-effect btn-flat red white-text" href="{% url 'rdvs_create' %}"> Add a new Rendez-Vous</a>
+</div>
 <div class="row">
     <div class="col s12 m6 l6">
         <div class="card">
@@ -13,16 +15,22 @@
                         <tr>
                             <th>Match</th>
                             <th>Date</th>
+                            <th class="center-align">Rating</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                    {% for rdv in rdv_list  %}
-                        <tr>
-                            <td>{{rdv.match.name}}</td>
-                            <td>{{rdv.date}}</td>
-                            <td><a class="btn-floating btn-small waves-effect waves-light red" href="{% url 'rdv_detail' rdv.id %}"> <i class="material-icons">more_horiz</i></a></td>
-                        </tr>
+                        {% for rdv in rdv_list %}
+                            {% if rdv.past_date %}
+                                {% if request.user.id == rdv.match.user.id %} 
+                                    <tr>
+                                        <td>{{rdv.match.name}}</td>
+                                        <td>{{rdv.date}}</td>
+                                        <td class="center-align">{{rdv.rating}}</td>
+                                        <td><a class="btn-floating btn-small waves-effect waves-light red" href="{% url 'rdv_detail' rdv.id %}"> <i class="material-icons">more_horiz</i></a></td>
+                                    </tr>
+                            {% endif %}
+                        {% endif %}
                     {% endfor %}
                     </tbody>
                 </table>
@@ -43,18 +51,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                    {% for rdv in rdv_list  %}
+                    {% for rdv in rdv_list %}
+                        {% if not rdv.past_date %}
+                            {% if request.user.id == rdv.match.user.id %} 
                         <tr>
                             <td>{{rdv.match.name}}</td>
                             <td>{{rdv.date}}</td>
-                            <td>{{rdv.time}}</td>
+                            <td>{{rdv.rdv_time}}</td>
                             <td><a class="btn-floating btn-small waves-effect waves-light red" href="{% url 'rdv_detail' rdv.id %}"> <i class="material-icons">more_horiz</i></a></td>
                         </tr>
+                            {% endif %}
+                        {% endif %}
                     {% endfor %}
                     </tbody>
                 </table>
                 <br>
-                <a class="waves-effect btn-flat red white-text" href="{% url 'rdvs_create' %}"> Add a new Rendez-Vous</a>
             </div>
         </div>
     </div>

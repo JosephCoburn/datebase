@@ -2,6 +2,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,27 +14,54 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
+
 <body>
-    <header class="navbar-fixed" >
-        <nav>
-            <div class="nav-wrapper white">
-                <a href="{% url 'matches_index' %}" class="left brand-logo" style="margin: 0 10px"><img height="30vh" src="../static/images/Datebase Logo.png" alt="datebase logo"></a> 
-                {% if user.is_authenticated %}
-                <ul class="right">
-                   <li> <a class="red-text text-darken 4" href="{% url 'matches_create' %}">Add a Match</a></li>
-                   <li> <a class="red-text text-darken 4" href="{% url 'rdvs_index' %}">Rendez-Vous</a></li>
-                   <li> <a class="red-text text-darken 4" href="{% url 'logout' %}">Log Out</a></li>
-                   <li> <a class="red-text text-darken 4" href="{% url 'profile' user.id %}"><i class="large material-icons">account_circle</i></a></li>
-                </ul>
+    <nav>
+        <div class="nav-wrapper white">
+            <a href="{% url 'matches_index' %}" class="left brand-logo" style="margin: 0 10px"><img height="30vh"
+                    src="https://i.imgur.com/dQnQmno.png" alt="datebase logo"></a>
+            {% if user.is_authenticated %}
+            <a href="#" data-target="mobile-links" class="right sidenav-trigger red-text text-darken 4"><i
+                    class="large material-icons">menu</i></a>
+            <ul class="right hide-on-med-and-down">
+                <li> <a class="red-text text-darken 4" href="{% url 'matches_create' %}">Add a Match</a></li>
+                <li> <a class="red-text text-darken 4" href="{% url 'rdvs_index' %}">Rendez-Vous</a></li>
+                <li> <a class="red-text text-darken 4" href="{% url 'logout' %}">Log Out</a></li>
+                {% for photo in user.user_photo_set.all %}
+                {% if forloop.counter == 1 %}
+                <li> <a class="profile red-text text-darken 4" href="{% url 'profile' user.id %}"><img class="profile-pic circle" height="40vh" width="40vw" src="{{photo.url}}"></a></li>
                 {% endif %}
-            </div>
-        </nav>
-    </header>
+                {% empty %}
+                <li> <a class="red-text text-darken 4" href="{% url 'profile' user.id %}"><i
+                            class="large material-icons">account_circle</i></a></li>
+                {% endfor %}
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    {% if user.is_authenticated %}
+    <ul class="sidenav" id="mobile-links">
+        {% for photo in user.user_photo_set.all %}
+        {% if forloop.counter == 1 %}
+        <li> <a class="profile red-text text-darken 4" href="{% url 'profile' user.id %}"><img
+                    class="profile-pic circle" height="40vh" width="40vw" src="{{photo.url}}"></a></li>
+        {% endif %}
+        {% empty %}
+        <li> <a class="red-text text-darken 4" href="{% url 'profile' user.id %}"><i
+                    class="large material-icons">account_circle</i></a></li>
+        {% endfor %}
+        <li> <a class="red-text text-darken 4" href="{% url 'matches_create' %}">Add a Match</a></li>
+        <li> <a class="red-text text-darken 4" href="{% url 'rdvs_index' %}">Rendez-Vous</a></li>
+        <li> <a class="red-text text-darken 4" href="{% url 'logout' %}">Log Out</a></li>
+    </ul>
+    {% endif %}
+
+
     <main class="container">
         {% block content %}
         {% endblock %}
     </main>
-  	<footer class="page-footer red darken-4">
+    <footer class="page-footer red darken-4">
         <div class="left">
             <a class="white-text" style="margin: 0 10px" href="{% url 'about' %}">About</a>
         </div>
@@ -41,4 +69,13 @@
         <br>
     </footer>
 </body>
+<script>
+    var elems = document.getElementById('mobile-links');
+    M.Sidenav.init(elems, {
+        edge: 'right',
+        closeOnClick: true,
+    });
+
+</script>
+
 </html>

@@ -1,65 +1,78 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1 class="center-align">Profile Page</h1>
-<div class="row">
-    <div class="col s4 m4 l4">
-            <div class="card-image center-align">
-                    {% for photo in match.match_photo_set.all %}
-                    <img class="responsive-img card-panel" src="{{photo.url}}">
-                    {% empty %}
-                    <i class="material-icons" style="font-size: 12rem" >account_circle</i>
-                    {% endfor %}
-                    </div>
-            <form action="{% url 'add_profile_photo' profile.id %}" enctype="multipart/form-data" method="POST" class="card-panel">
-                {% csrf_token%}
-                <input type="file" name="photo-file">
-                <br><br>
-                <input type="submit" class="btn red" value="Upload Photo">
-            </form>
-    </div>
-    <div class="col s8 m8 l8">
-        <table class="striped">
-            <tbody>
-                <tr>
-                    <th>User Name</th>
-                    <td>{{ user.username }}</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <th>First Name</th>
-                    <td>first name</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <th>Last Name</th>
-                    <td>last name</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <th>User Email</th>
-                    <td>user email</td>
-                    <td><a class="btn-floating btn-small waves-effect waves-light red" href=""> <i class="material-icons">edit</i></a></td>
-                </tr>
-                <tr>
-                    <th>Current Dating Apps</th>
-                    <td>Current Dating Apps</td>
-                    <td><a class="btn-floating btn-small waves-effect waves-light red" href=""> <i class="material-icons">edit</i></a></td>
-                </tr>
-                <tr>
-                    <th>Looking for</th>
-                    <td>Looking for</td>
-                    <td><a class="btn-floating btn-small waves-effect waves-light red" href=""> <i class="material-icons">edit</i></a></td>
-                </tr>
-                <tr>
-                    <th>Zodiac Sign</th>
-                    <td>Zodiac Sign</td>
-                    <td><a class="btn-floating btn-small waves-effect waves-light red" href=""> <i class="material-icons">edit</i></a></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
+{% if profile %}
 
+<div class="row">
+        <div class="col s8 offset-s2 m6 offset-m3 l4 center-align">
+                <div class="card-image center-align">
+                    {% for photo in user.user_photo_set.all %}
+                        {% if forloop.counter == 1 %}
+                            <img class="responsive-img card-panel" src="{{photo.url}}">
+                        {% endif %}
+                    {% empty %}
+                        <i class="material-icons" style="font-size: 25vh" >account_circle</i>
+                    {% endfor %}
+                </div>
+                <form action="{% url 'add_profile_photo' user.id %}" enctype="multipart/form-data" method="POST" class="card-panel">
+                    {% csrf_token%}
+                    <input type="file" name="photo-file">
+                    <br><br>
+                    <input type="submit" class="btn-flat red white-text" value="Upload Photo">
+                </form>
+                <a class="waves-effect btn-flat red white-text" href="{% url 'profile_update' user.profile.id %}">Edit Profile</a>
+                <a class="waves-effect btn-flat red white-text" href="{% url 'profile_delete' user.profile.id %}">Delete Profile</a>
+        </div>
+        <div class="col s10 offset-s1 m8 offset-m2 l8">
+            <table class="highlight">
+                <tbody>
+                    <tr>
+                        <th>User Name</th>
+                        <td>{{ user.username }}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>First Name</th>
+                        <td>{{ user.profile.first_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Last Name</th>
+                        <td>{{ user.profile.last_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Age</th>
+                        <td>{{ user.profile.age }}</td>
+                    </tr>
+                    <tr>
+                        <th>Gender</th>
+                        <td>{{ user.profile.gender }}</td>
+                    </tr>
+                    <tr>
+                        <th>Zodiac</th>
+                        <td>{{ user.profile.zodiac }}</td>
+                    </tr>
+                    <tr>
+                        <th>Current Dating Apps</th>
+                        <td>{{ user.profile.apps_used }}</td>
+                    </tr>
+                    <tr>
+                        <th>Relationship Goal</th>
+                        <td>{{ user.profile.relationship_goal}}</td>
+                    </tr>
+                    <tr>
+                        <th>First Joined</th>
+                        <td>{{ user.profile.created }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% else %}
+
+    <div class="center-align">
+        <a class="btn-flat red white-text" href="{% url 'profile_create'%}">Create Profile</a>
+    </div>
+{% endif %}
 
 {% endblock %}

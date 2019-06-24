@@ -3,18 +3,23 @@
 {% block content %}
 
 {% if object %}
-    <h1>Edit <span class="teal-text">{{object.name}}</span></h1>
+<h4 class="center-align red-text darken-4">Edit <span class="red-text">{{object.name}}</span></h4>
 {% else %}
-    <h1>Add a Match</h1>
+<h4 class="center-align red-text darken-4">Add a Match</h4>
 {% endif %}
 
-    <form action="" method="post">
-        {% csrf_token %}
-        <table>
-            {{ form.as_table }}
-        </table>
-        <input type="submit" value="Submit" class="btn">
-    </form>
+<form action="" method="post">
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+    </table>
+    <input type="hidden" name="match_id" value="{{ object.id }}">
+    {% if object %}
+    <input type="submit" value="Edit Match" class="btn-flat red white-text">
+    {% else %}
+    <input type="submit" value="Add Match" class="btn-flat red white-text">
+    {% endif %}
+</form>
 
 <script>
     var selectEl = document.getElementById('id_zodiac');

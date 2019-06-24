@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h4>Delete rendez-vous</h4>
+  <h4>Delete Profile</h4>
 
-  <h5>Are you sure you want to delete <span class="red-text">{{ object.name }}</span>?</h5>
+  <h5>Are you sure you want to delete your profile?</h5>
 
   <form action="" method="POST">
     {% csrf_token %}
     <input type="submit" value="Yes - Delete" class="btn-flat red white-text">
-    <a href="{% url 'rdv_detail' rdv.id %}">Cancel</a>
+    <a href="{% url 'profile' user.id %}">Cancel</a>
   </form>
 {% endblock %}

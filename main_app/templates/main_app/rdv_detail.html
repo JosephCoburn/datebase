@@ -1,54 +1,113 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1 class="center-align">Rendez-vous Details</h1>
+<h4 class="center-align red-text darken-4">rendez-vous details with {{rdv.match.name}}</h4>
 <div class="row">
-    <div class="col s4 m4 l4">
-            <div class="card-image center-align">
-                <i class="material-icons" style="font-size: 12rem" >account_circle</i>
-            </div>
+    <div class="col s8 offset-s2 m8 offset-m2 l4 offset-l4">
+        <div class="card-image center-align">
+            {% for photo in rdv.match.match_photo_set.all %}
+            {% if forloop.counter == 1 %}
+            <a href="{% url 'match_detail' rdv.match.id %}"><img class=" responsive-img card-panel"
+                    src="{{photo.url}}"></a>
+            {% endif %}
+            {% empty %}
+            <i class="material-icons" style="font-size: 12rem">account_circle</i>
+            {% endfor %}
+        </div>
     </div>
-    <div class="col s8 m8 l8">
+    <div class="col s8 offset-s2 m8 offset-m2 l8 offset-l2">
         <table class="striped">
             <tbody>
                 <tr>
                     <th>Rendez-vous Match</th>
                     <td>{{rdv.match.name}}</td>
-                    <td></td>
                 </tr>
                 <tr>
                     <th>Date</th>
                     <td>{{rdv.date}}</td>
-                    <td><a class="btn-floating btn-small waves-effect waves-light red" href=""> <i class="material-icons">edit</i></a></td>
                 </tr>
                 <tr>
                     <th>Time</th>
-                    <td>{{rdv.time}}</td>
-                    <td><a class="btn-floating btn-small waves-effect waves-light red" href=""> <i class="material-icons">edit</i></a></td>
+                    <td>{{rdv.rdv_time}}</td>
                 </tr>
                 <tr>
                     <th>Where</th>
                     <td>{{rdv.where}}</td>
-                    <td><a class="btn-floating btn-small waves-effect waves-light red" href=""> <i class="material-icons">edit</i></a></td>
                 </tr>
                 <tr>
                     <th>Activity</th>
                     <td>{{rdv.what}}</td>
-                    <td><a class="btn-floating btn-small waves-effect waves-light red" href=""> <i class="material-icons">edit</i></a></td>
                 </tr>
+                {% if rdv.past_date %}
+                <tr>
+                    <th>Rating</th>
+                    <td>{{rdv.rating}}</td>
+                </tr>
+                {% endif %}
                 <tr>
                     <th>Notes</th>
                     <td>{{rdv.notes}}</td>
-                    <td><a class="btn-floating btn-small waves-effect waves-light red" href=""> <i class="material-icons">edit</i></a></td>
                 </tr>
             </tbody>
         </table>
+        <table>
+            <tbody>
+                <br>
+                <!-- {% if rdv.where and rdv.when %}
+                <tr>
+                    <th>Yelp Suggestions</th>
+                </tr>
+                {% endif %} -->
+                {% if yelp %}
+            <tbody>
+                <thead>
+                    <tr>
+                        <th>Business Name</th>
+                        <th>Rating</th>
+                        <th>Address</th>
+                        <th>Number</th>
+                    </tr>
+                </thead>
+                {% endif %}
+                {% for business in yelp %}
+                <tr>
+                    <td><a href='{{business.url}}' target='_blank'>{{business.name}}</a></td>
+                    <td>{{business.rating}}</td>
+                    <td>{{business.address}}</td>
+                    <td>{{business.phone}}</td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
     </div>
-</div>
-<div class="row center-align">
-    <a class="btn red text-white" href="">Cancel Rendez-Vous</a>
-</div>
-<div class="row center-align">
-    <a class="btn red text-white" href="">Delete Rendez-Vous</a>
-</div>
-{% endblock %}
+    <div class="row center-align">
+        <div class="col s8 offset-s2 m8 offset-m2 l8 offset-l2">
+            {% if not yelp %}
+            {% if rdv.what and rdv.where %}
+            <div class="row center-align">
+                <a class="waves-effect btn-flat red white-text" href="{% url 'yelp_search' rdv.id %}">Search Yelp for
+                    Ideas</a>
+            </div>
+            {% else %}
+            <div class="row center-align">
+                <a class="waves-effect btn-flat red white-text" href="{% url 'rdv_update' rdv.id %}">Add 'Where' and
+                    'Activity' to Search Yelp for Suggestions</a>
+            </div>
+            {% endif %}
+            {% endif %}
+            <div class="row center-align">
+                <a class="waves-effect btn-flat red white-text" href="{% url 'add_calendar' rdv.id %}">Add to Google
+                    Calendar</a>
+            </div>
+            <div class="row center-align">
+                <a class="waves-effect btn-flat red white-text" href="{% url 'rdv_update' rdv.id %}">Edit Rendez-Vous
+                    Details</a>
+            </div>
+            <div class="row center-align">
+                <a class="waves-effect btn-flat red white-text" href="{% url 'rdv_delete' rdv.id %}">Delete
+                    Rendez-Vous</a>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
